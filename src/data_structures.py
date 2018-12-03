@@ -7,7 +7,7 @@ class Vertex:
 		self.idx = idx
 		self.neighbors = []
 	
-	def add_neighbor(self, n)
+	def add_neighbor(self, n):
 		self.neighbors.append(n)
 	
 	
