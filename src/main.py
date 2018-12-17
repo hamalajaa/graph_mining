@@ -1,19 +1,23 @@
 from data_structures import Graph
 from file_handler import FileHandler
+from spectral_clustering import SpectralClustering
 import numpy as np
+import timeit
 
-file_path = "../graphs_part_1/ca-TestData.txt"
-#file_path = "../graphs_part_1/ca-AstroPh.txt"
+file_path = "../graphs_part_1/ca-GrQc.txt"
+#file_path = "../graphs_part_1/ca-hepTh.txt"
+#file_path = "../graphs_part_1/ca-TestData.txt"
 file_handler = FileHandler()
+graph = file_handler.r_file_to_graph(file_path)
+sc = SpectralClustering(graph, file_handler.k)
 
 def main():
-	graph = file_handler.r_file_to_graph(file_path)
-	graph.compute_laplacian()
-	graph.compute_eigenvectors_of_laplacian()
+	sc.compute_laplacian()
+	sc.compute_eigenvectors_of_laplacian()
 	print(graph.adjacency_matrix)
-	print(graph.laplacian_matrix)
-	print(graph.eigenvalues_of_laplacian)
-	print(graph.eigenvectors_of_laplacian)
+	print(sc.laplacian_matrix)
+	print(sc.eigenvalues_of_laplacian)
+	print(sc.eigenvectors_of_laplacian)
 	
-	
-main()
+#main()
+print(timeit.Timer(main).timeit(number=1))

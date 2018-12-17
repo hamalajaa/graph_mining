@@ -7,6 +7,7 @@ class FileHandler:
 
 	def __init__(self):
 		self.data = []
+		self.k = 0
 	
 	
 	#Reads an input file given as parameter and constructs a graph based on the data.
@@ -16,6 +17,7 @@ class FileHandler:
 		header = (file.readline()).split()
 		nof_vertices = int(header[2])
 		nof_edges = int(header[3])
+		self.k = int(header[4])
 		graph = Graph(nof_vertices, nof_edges)
 		for line in file:
 			vertices = line.split()
