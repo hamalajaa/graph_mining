@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.sparse import csgraph
 from scipy.sparse import linalg as la
+from sklearn.cluster import KMeans
 
 class SpectralClustering:
 
@@ -14,6 +15,10 @@ class SpectralClustering:
 
 	def compute_laplacian(self):
 		self.laplacian_matrix = csgraph.laplacian(self.graph.adjacency_matrix, normed=True)
+			
 		
 	def compute_eigenvectors_of_laplacian(self):
 		self.eigenvalues_of_laplacian, self.eigenvectors_of_laplacian = la.eigsh(self.laplacian_matrix, k=self.k, sigma=0, which='LM')
+		
+	def compute_clustering(self):
+		return KMeans(n_clusters=self.k).fit(self.eigenvectors_of_laplacian)
