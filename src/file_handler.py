@@ -22,8 +22,13 @@ class FileHandler:
 		for line in file:
 			vertices = line.split()
 			graph.add_edge(int(vertices[0]), int(vertices[1]))
+		file.close()
 		return graph
 		
-	#def w_graph_to_file(self, output_file, graph):
 		
+	def create_output(self, output_file, graph, labels):
+		file = open(output_file, "w")
+		for i in range(graph.n):
+			file.write("{} {}\n".format(i, labels[i]))
+		file.close()
 		
