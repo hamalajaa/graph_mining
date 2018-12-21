@@ -1,6 +1,7 @@
 from data_structures import Graph
 from file_handler import FileHandler
 from spectral_clustering import SpectralClustering
+from scipy.sparse import linalg as la
 import numpy as np
 import pytest
 from pytest import approx
@@ -15,6 +16,7 @@ sc = SpectralClustering(graph, file_handler.k)
 def test_laplacian_eigenvectors():
 	sc.compute_laplacian()
 	sc.compute_eigenvectors_of_laplacian()
+	evals, evecs = la.eigsh(sc.laplacian_matrix, k=sc.k, sigma=0, which='LM')
 	for i in range(sc.k):
-		assert np.allclose(np.matmul(sc.laplacian_matrix, sc.eigenvectors_of_laplacian[:,i]), sc.eigenvalues_of_laplacian[i] * sc.eigenvectors_of_laplacian[:,i], atol=flat_tol, rtol=rel_tol)
+		assert np.allclose(np.matmul(sc.laplacian_matrix, evecs[:,i]), evals[i] * evecs[:,i], atol=flat_tol, rtol=rel_tol)
 	

@@ -9,13 +9,16 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import tkinter
 
-file_name = "ca-GrQc.txt"
+#file_name = "ca-TestData"
+file_name = "ca-GrQc" 
+#file_name = "ca-HepTh" 
 input_path = "../graphs_part_1/"
 output_path = "../out/"
 
 file_handler = FileHandler()
-graph = file_handler.r_file_to_graph(input_path + file_name)
+graph = file_handler.r_file_to_graph("{}.txt".format(input_path + file_name))
 sc = SpectralClustering(graph, file_handler.k)
+s_time = time.time()
 
 def main():
 	start_time = time.time()
@@ -28,17 +31,25 @@ def main():
 	kmeans = sc.compute_clustering()
 	print('Clustering:              {}'.format(time.time() - start_time))
 	start_time = time.time()
-	file_handler.create_output(output_path + file_name, graph, kmeans.labels_)
+	cut_edges, min_community, max_community = sc.goodness_of_partition()
+	print('Goodness of partition:   {}'.format(time.time() - start_time))
+	start_time = time.time()
+	file_handler.create_output("{}.txt".format(output_path + file_name), graph, kmeans.labels_)
 	print('Writing file:            {}'.format(time.time() - start_time))
-	
-	#print(graph.adjacency_matrix)
-	#print(sc.laplacian_matrix)
-	#print(sc.eigenvalues_of_laplacian)
-	#print(sc.eigenvectors_of_laplacian)
 	start_time = time.time()
 	construct_image(kmeans.labels_)
 	print('Image construction:      {}'.format(time.time() - start_time))
 	print('---------------------------------------------')
+	print('Total:                   {}'.format(time.time() - s_time))
+	print('---------------------------------------------')
+	print('Cut edges:               {}'.format(cut_edges))
+	print('Min community size:      {}'.format(min_community))
+	print('Max community size:      {}'.format(max_community))
+	print('Goodness of partition:   {}'.format(cut_edges / min_community))
+	#print(graph.adjacency_matrix)
+	#print(sc.laplacian_matrix)
+	#print(sc.eigenvalues_of_laplacian)
+	#print(sc.eigenvectors_of_laplacian)
 	
 
 def construct_image(labels):
@@ -49,9 +60,8 @@ def construct_image(labels):
 	axs.axis('off')
 	nx.draw_networkx_edges(G, coord)
 	nx.draw_networkx_nodes(G, coord, node_size=5, node_color=labels)
-	plt.savefig("../img/graph.png")
+	plt.savefig("../img/{}.png".format(file_name))
 
-start_time = time.time()
 main()
-print('Total:                   {}'.format(time.time() - start_time))
+
 
