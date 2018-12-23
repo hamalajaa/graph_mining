@@ -10,8 +10,11 @@ import matplotlib.pyplot as plt
 import tkinter
 
 #file_name = "ca-TestData"
-file_name = "ca-GrQc" 
-#file_name = "ca-HepTh" 
+#file_name = "ca-GrQc" 
+#file_name = "ca-HepTh"
+#file_name = "ca-HepPh"
+file_name = "ca-AstroPh"
+#file_name = "ca-CondMat"
 input_path = "../graphs_part_1/"
 output_path = "../out/"
 
@@ -46,6 +49,7 @@ def main():
 	print('Min community size:      {}'.format(min_community))
 	print('Max community size:      {}'.format(max_community))
 	print('Goodness of partition:   {}'.format(cut_edges / min_community))
+	#print(sc.eigenvectors_of_laplacian)
 	#print(graph.adjacency_matrix)
 	#print(sc.laplacian_matrix)
 	#print(sc.eigenvalues_of_laplacian)
